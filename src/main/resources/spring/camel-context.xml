@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+
+        <!-- Main route -->
+        <route id="generate-order-route">
+            <from id="route-timer" uri="timer:order?period=3000"/>
+            <transform>
+                <simple>message-${header.CamelTimerCounter}</simple>
+            </transform>
+            <log id="route-log-message" message="Generating message ${body}, sending to the recipient list"/>
+            <recipientList>
+                <method id="route-to-recipients" ref="quickstartConfiguration" method="getRecipients"/>
+            </recipientList>
+        </route>
+
+        <!-- Target Routes -->
+        <route id="target-route-queue">
+            <from id="async-queue-from" uri="direct:async-queue"/>
+            <log id="async-queue-log" message="----> ${body} pushed to an async queue (simulation)"/>
+            <log id="async-queue-cred-log" message="----> Using username '${bean:quickstartConfiguration?method=getQueueUsername}' for the async queue"/>
+        </route>
+
+        <route id="target-route--mail">
+            <from id="mail-from" uri="direct:mail"/>
+            <log id="mail-log" message="----> ${body} sent via mail (simulation)"/>
+        </route>
+
+        <route id="target-route--file">
+            <from id="file-from" uri="direct:file"/>
+            <log id="file-log" message="----> ${body} written to a file (simulation)"/>
+        </route>
+
+    </camelContext>
+</beans>
