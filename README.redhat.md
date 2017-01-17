@@ -58,7 +58,7 @@ The following command can be used to create the ConfigMap
 Then the following command will package your app and run it on Openshift:
 
 ```
-mvn fabric8:run
+mvn fabric8:deploy
 ```
 
 To list all the running pods:
@@ -69,8 +69,4 @@ Then find the name of the pod that runs this quickstart, and output the logs fro
 
     oc logs <name of pod>
 
-
-### More details
-
-You can find more details about running this [quickstart](http://fabric8.io/guide/quickstarts/running.html) on the website. This also includes instructions how to change the Docker image user and registry.
 
