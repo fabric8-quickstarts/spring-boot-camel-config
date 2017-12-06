@@ -4,6 +4,6 @@
                http://jboss.org/schema/arquillian/arquillian_1_0.xsd">
 
   <extension qualifier="kubernetes">
-    <property name="env.dependencies">src/test/resources/test-secret.json</property>
+    <property name="env.dependencies">file:src/test/resources/test-secret.json</property>
   </extension>
 </arquillian>
