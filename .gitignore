@@ -18,3 +18,4 @@ kube-cluster/kubernetes
 apps/modifiedFabric8.json
 git-clones
 /bin/
+.vscode/
