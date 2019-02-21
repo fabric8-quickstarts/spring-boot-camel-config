@@ -1,13 +1,11 @@
 # Spring Boot and Camel using ConfigMaps and Secrets 
 
-This quickstart demonstrates how to configure a Spring-Boot application using Kubernetes ConfigMaps and Secrets.
+This quickstart demonstrates how to configure a Spring-Boot application using Openshift ConfigMaps and Secrets.
 
-A route generates sample messages that are delivered to a list of recipient endpoints 
-configured through a property named `quickstart.recipients` in the `src/main/resources/application.properties` file.
-The property can be overridden using a Kubernetes ConfigMap object.
-As soon as a ConfigMap named `camel-config` (containing a property named `application.properties`) is created or changed in the namespace, 
- an application-context refresh event will be triggered and the logs will reflect the new configuration. 
- A sample `ConfigMap` (`sample-configmap.yml`) is contained in this repository (it changes the configuration to use all available endpoints in the `recipientList`). 
+A route generates sample messages that are delivered to a list of recipient endpoints configured through a property named `quickstart.recipients` in the `src/main/resources/application.properties` file.
+The property can be overridden using a Openshift ConfigMap object.
+As soon as a ConfigMap named `camel-config` (containing a property named `application.properties`) is created or changed in the project, an application-context refresh event will be triggered and the logs will reflect the new configuration. 
+A sample `ConfigMap` (`sample-configmap.yml`) is contained in this repository (it changes the configuration to use all available endpoints in the `recipientList`). 
 
 The quickstart will run on Openshift using a `ServiceAccount` named `qs-camel-config`, with the `view` role granted.
 This way, the application is allowed to read the `ConfigMap` and to listen for changes in the current Openshift project.
@@ -29,43 +27,23 @@ The example can be built with
     mvn clean install
 
 
-### Running the example locally
+### Running the example in OpenShift
 
-The example can be run locally using the following Maven goal:
-
-    mvn spring-boot:run
-
-
-### Running the example in Kubernetes
-
-It is assumed that Kubernetes is already running. If not you can find details how to [get started](http://fabric8.io/guide/getStarted/index.html).
-
-Assuming your current shell is connected to Kubernetes or OpenShift so that you can type a command like
-
-```
-kubectl get pods
-# for Openshift:
-# oc get pods
-```
+It is assumed that:
+- OpenShift platform is already running, if not you can find details how to [Install OpenShift at your site](https://docs.openshift.com/container-platform/3.3/install_config/index.html).
+- Your system is configured for Fabric8 Maven Workflow, if not you can find a [Get Started Guide](https://access.redhat.com/documentation/en/red-hat-jboss-middleware-for-openshift/3/single/red-hat-jboss-fuse-integration-services-20-for-openshift/)
 
 The following command will create the (**required**) secret:
 
-    kubectl create -f sample-secret.yml
-    # for Openshift:
-    # oc create -f sample-secret.yml
+    oc create -f sample-secret.yml
 
-The following command can be used to create the ConfigMap 
-(the ConfigMap can be also created after the application has been deployed, to see the live-reload feature in action):
+The following command can be used to create the ConfigMap (the ConfigMap can be also created after the application has been deployed, to see the live-reload feature in action):
 
-    kubectl create -f sample-configmap.yml
-    # for Openshift:
-    # oc create -f sample-configmap.yml
+    oc create -f sample-configmap.yml
 
-Then the following command will package your app and run it on Kubernetes:
+Then the following command will package your app and run it on Openshift:
 
-```
-mvn fabric8:run
-```
+    mvn fabric8:deploy
 
 To list all the running pods:
 
@@ -75,8 +53,22 @@ Then find the name of the pod that runs this quickstart, and output the logs fro
 
     oc logs <name of pod>
 
-You can also use the [fabric8 developer console](http://fabric8.io/guide/console.html) to manage the running pods, and view logs and much more.
+You can also use the openshift [web console](https://docs.openshift.com/container-platform/3.3/getting_started/developers_console.html#developers-console-video) to manage the
+running pods, and view logs and much more.
 
+### Running via an S2I Application Template
+
+Applicaiton templates allow you deploy applications to OpenShift by filling out a form in the OpenShift console that allows you to adjust deployment parameters.  This template uses an S2I source build so that it handle building and deploying the application for you.
+
+First, import the Fuse image streams:
+
+    oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/GA/fis-image-streams.json
+
+Then create the quickstart template:
+
+    oc create -f https://raw.githubusercontent.com/jboss-fuse/application-templates/GA/quickstarts/spring-boot-camel-config-template.json
+
+Now when you use "Add to Project" button in the OpenShift console, you should see a template for this quickstart. 
 
 ### Integration Testing
 
@@ -86,9 +78,3 @@ Once the container image has been built and deployed in OpenShift, the integrati
     mvn test -Dtest=*KT
 
 The test is disabled by default and has to be enabled using `-Dtest`. Open Source Community documentation at [Integration Testing](https://fabric8.io/guide/testing.html) and [Fabric8 Arquillian Extension](https://fabric8.io/guide/arquillian.html) provide more information on writing full fledged black box integration tests for OpenShift. 
-
-
-### More details
-
-You can find more details about running this [quickstart](http://fabric8.io/guide/quickstarts/running.html) on the website. This also includes instructions how to change the Docker image user and registry.
-
