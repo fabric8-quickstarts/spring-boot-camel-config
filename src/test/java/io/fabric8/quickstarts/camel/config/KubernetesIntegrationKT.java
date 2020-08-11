@@ -13,12 +13,11 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package io.fabric8.quickstarts.camel.config;
 
-import io.fabric8.kubernetes.api.model.Pod;
-import io.fabric8.kubernetes.api.model.PodList;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.kubernetes.client.internal.readiness.Readiness;
+import static org.junit.Assert.assertTrue;
+
 import org.arquillian.cube.kubernetes.api.Session;
 import org.jboss.arquillian.container.test.api.RunAsClient;
 import org.jboss.arquillian.junit.Arquillian;
@@ -26,7 +25,10 @@ import org.jboss.arquillian.test.api.ArquillianResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.assertTrue;
+import io.fabric8.kubernetes.api.model.Pod;
+import io.fabric8.kubernetes.api.model.PodList;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.kubernetes.client.internal.readiness.Readiness;
 
 @RunWith(Arquillian.class)
 @RunAsClient
