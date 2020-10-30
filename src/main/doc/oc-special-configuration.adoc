@@ -1,0 +1,12 @@
+
+. Create the (**required**) secret:
++
+----
+$ oc create -f sample-secret.yml
+----
+
+. Create the ConfigMap (the ConfigMap can be also created after the application has been deployed, to see the live-reload feature in action):
++
+----
+$ oc create -f sample-configmap.yml
+----
