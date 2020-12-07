@@ -89,6 +89,16 @@
             <artifactId>spring-cloud-starter-kubernetes-config</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.fabric8</groupId>
+            <artifactId>kubernetes-model</artifactId>
+        </dependency>
+
         <!-- Test -->
         <dependency>
             <groupId>junit</groupId>
@@ -148,6 +158,7 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <inherited>true</inherited>
                 <configuration>
+                    <rerunFailingTestsCount>15</rerunFailingTestsCount>
                     <argLine>-DenableImageStreamDetection=true</argLine>
                     <excludes>
                         <exclude>**/*KT.java</exclude>
