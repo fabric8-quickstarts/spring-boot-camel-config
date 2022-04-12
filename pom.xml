@@ -35,7 +35,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <!-- configure the Fuse version you want to use here -->
-        <fuse.bom.version>7.8.0.fuse-sb2-780033</fuse.bom.version>
+        <fuse.bom.version>7.11.0.fuse-sb2-7_11_0-00014</fuse.bom.version>
         <docker.image.version>1.11</docker.image.version>
 
         <!-- maven plugin versions -->
@@ -86,7 +86,7 @@
         <!-- Spring-Cloud-Kubernetes -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-kubernetes-config</artifactId>
+            <artifactId>spring-cloud-starter-kubernetes-client-config</artifactId>
         </dependency>
 
         <dependency>
