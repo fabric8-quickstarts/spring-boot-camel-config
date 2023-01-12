@@ -24,7 +24,7 @@ A sample secret (`sample-secret.yml`) is contained in this repository (it just r
 
 The application utilizes the Spring http://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/context/annotation/ImportResource.html[`@ImportResource`] annotation to load a Camel Context definition via a _src/main/resources/spring/camel-context.xml_ file on the classpath.
 
-IMPORTANT: This quickstart can run in 2 modes: standalone on your machine and on Kubernetes / OpenShift Cluster
+IMPORTANT: This quickstart can run in 2 modes: standalone on your machine and on Kubernetes / OpenShift Cluster. Quickstart requires Java 8 or Java 11 (`fuse-java-openshift-jdk11-rhel8` image is used to build in Java 11).
 
 == Deployment options
 
@@ -85,7 +85,7 @@ $ oc create -f sample-configmap.yml
 +
 [source,bash,options="nowrap",subs="attributes+"]
 ----
-$ mvn clean -DskipTests fabric8:deploy -Popenshift
+$ mvn clean -DskipTests oc:deploy -Popenshift
 ----
 
 . In your browser, navigate to the `MY_PROJECT_NAME` project in the OpenShift console.
@@ -117,6 +117,9 @@ $ oc login -u developer -p developer
 $ oc new-project MY_PROJECT_NAME
 ----
 
+. Configure Red Hat Container Registry authentication (if it is not configured).
+Follow https://access.redhat.com/documentation/en-us/red_hat_fuse/7.10/html-single/fuse_on_openshift_guide/index#configure-container-registry[documentation].
+
 . Import base images in your newly created project (MY_PROJECT_NAME):
 +
 [source,bash,options="nowrap",subs="attributes+"]
@@ -147,7 +150,7 @@ $ oc create -f sample-configmap.yml
 +
 [source,bash,options="nowrap",subs="attributes+"]
 ----
-$ mvn clean -DskipTests fabric8:deploy -Popenshift -Dfabric8.generator.fromMode=istag -Dfabric8.generator.from=MY_PROJECT_NAME/fis-java-openshift:2.0
+$ mvn clean -DskipTests oc:deploy -Popenshift -Djkube.generator.fromMode=istag -Djkube.generator.from=MY_PROJECT_NAME/fis-java-openshift:2.0
 ----
 
 . In your browser, navigate to the `MY_PROJECT_NAME` project in the OpenShift console.
@@ -159,7 +162,7 @@ Wait until you can see that the pod for the `spring-boot-camel-config` has start
 
 == Integration Testing
 
-The example includes a https://github.com/fabric8io/fabric8/tree/master/components/fabric8-arquillian[fabric8 arquillian] Kubernetes Integration Test.
+The example includes a  Kubernetes Integration Test.
 Once the container image has been built and deployed in Kubernetes, the integration test can be run with:
 
 [source,bash,options="nowrap",subs="attributes+"]
@@ -167,7 +170,7 @@ Once the container image has been built and deployed in Kubernetes, the integrat
 mvn test -Dtest=*KT
 ----
 
-The test is disabled by default and has to be enabled using `-Dtest`. https://fabric8.io/guide/testing.html[Integration Testing] and https://fabric8.io/guide/arquillian.html[Fabric8 Arquillian Extension] provide more information on writing full fledged black box integration tests for Kubernetes.
+The test is disabled by default and has to be enabled using `-Dtest`.
 
 == Running the quickstart standalone on your machine
 To run this quickstart as a standalone project on your local machine:

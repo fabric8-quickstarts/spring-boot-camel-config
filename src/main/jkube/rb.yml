@@ -1,0 +1,11 @@
+kind: "RoleBinding"
+apiVersion: "rbac.authorization.k8s.io/v1"
+metadata:
+  name: "qs-camel-config"
+roleRef:
+  # Add the "namespace-reader" role to the service account
+  kind: "Role"
+  name: "namespace-reader"
+subjects:
+  - kind: "ServiceAccount"
+    name: "qs-camel-config"
