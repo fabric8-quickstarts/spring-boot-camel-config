@@ -23,7 +23,7 @@
 
     <groupId>io.fabric8.quickstarts</groupId>
     <artifactId>spring-boot-camel-config</artifactId>
-    <version>7.12.0.fuse-7_12_0-00020</version>
+    <version>1.0-SNAPSHOT</version>
 
 
     <name>Fabric8 :: Quickstarts :: Spring Boot :: Camel Config</name>
